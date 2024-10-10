@@ -2,28 +2,28 @@
 # SPDX-License-Identifier: MIT
 # This file is part of https://github.com/jakoch/jupyter-devbox
 
-
 # +-----------------------------+
 # | BASE IMAGE             ~32MB|        See https://hub.docker.com/_/debian
 # +-----------------------------+
 
-# Platform/Architecture = linux/arm64v8 = linux/arm64/v8 = arm64 = aarch64
+# Platform/Architecture = linux/amd64
 
-FROM arm64v8/debian:bookworm-slim
+FROM debian:bookworm-slim
 
 # +-----------------------------+
 # | METADATA                    |
 # +-----------------------------+
 
 LABEL org.opencontainers.image.licenses="MIT" \
-      org.opencontainers.image.vendor="Jens A. Koch" \
-      org.opencontainers.image.authors="Jens A. Koch <jakoch@web.de>" \
-      org.opencontainers.image.source="https://github.com/jakoch/jupyter-devbox"
+      org.opencontainers.image.vendor="Jens A. Koch, edit: @birkenbube" \
+      org.opencontainers.image.authors="Jens A. Koch <jakoch@web.de>, edit: @birkenbube" \
+      org.opencontainers.image.source="https://github.com/birkenbube/jupyter-devbox-mod"
+
 # +-----------------------------+
 # | ARGS                        |
 # +-----------------------------+
 
-ARG USERNAME=vscode
+ARG USERNAME=jupyter-devbox-mod
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
@@ -31,8 +31,8 @@ ARG USER_GID=$USER_UID
 # | ENV                         |
 # +-----------------------------+
 
-ENV DEBIAN_FRONTEND=noninteractive \
-    DEBCONF_NONINTERACTIVE_SEEN=true
+ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN=true
 
 # +-----------------------------+
 # | PRE-REQUISITES/INIT PACKAGES |
@@ -52,30 +52,11 @@ RUN apt-get update && \
     apt-get -y install --no-install-recommends \
         git zsh curl wget nano openssh-client ca-certificates tzdata locales \
         gcc g++ build-essential cmake ninja-build \
-        zip unzip bzip2
-
-# Set locale and timezone
-RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-ENV LANG en_US.utf8 \
-    TZ=Etc/UTC
-
-# Install Rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rustup.sh \
-  && sh /tmp/rustup.sh -y --default-toolchain stable
-ENV HOME /root
-ENV PATH $HOME/.cargo/bin:$PATH
-#RUN rustup --version && cargo --version && rustc --version
-#RUN rustup update
-
-RUN apt-get -y install --no-install-recommends \
+        zip unzip bzip2 \
         libjpeg-dev libpng-dev libpq-dev \
         imagemagick gnuplot gnuplot-x11 libssl-dev libzmq3-dev graphviz \
-        re2c libffi-dev libffi8 gfortran libxsimd-dev libhdf5-serial-dev \
-        libxml2-dev libxslt-dev \
-    # OPENCV
+    # opencv
         libopencv-dev \
-    # BLAS and LAPACK, OPENBLAS and BLIS
-        libblas-dev liblapack-dev libopenblas-dev libblis-dev \
     # py3
         python3 \
         python3-dev \
@@ -83,6 +64,12 @@ RUN apt-get -y install --no-install-recommends \
         python3-venv \
         python3-wheel \
         python3-setuptools
+        #python3-opencv \ # 4.6.0
+
+# Set locale and timezone
+RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG en_US.utf8 \
+    TZ=Etc/UTC
 
 # Cleanup
 RUN apt-get autoremove -fy && \
@@ -104,14 +91,13 @@ RUN pip config --user set global.disable-pip-version-check true && \
     pip install --upgrade wheel
 
 # Install Python Packages
-# prefer-binary = prefer to download the precompiled wheel, even if source is newer
 # Note: using multiple pip install runs is intentional, else pip has a problem resolving the dependencies
 RUN pip install ipykernel docutils jupyter notebook jupyterhub && \
-    pip install --prefer-binary \
+    pip install \
         watermark pyyaml pylint h5py \
         tensorflow && \
     pip install --prefer-binary \
-        matplotlib pillow seaborn plotly graphviz \
+        matplotlib seaborn plotly graphviz \
         keras --no-deps \
         opencv-python-headless \
         imutils && \

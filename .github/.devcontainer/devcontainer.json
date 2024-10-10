@@ -1,10 +1,10 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json
 {
-    "name": "jupyter-devbox",
+    "name": "jupyter-devbox-mod",
     // The repository contains two images:
     // "amd64/Dockerfile (default)
     // "arm64v8/Dockerfile"
-    "dockerFile": "amd64/Dockerfile",
+    "dockerFile": "Dockerfile",
     // config settings you would have in ".vscode/settings.json"
     "customizations": {
         "vscode": {
@@ -52,9 +52,20 @@
         "8888:8888"
     ],
     // After Starting the Container, start the jupyter notebook
-    "postStartCommand": "chmod u+x start-notebook.sh && bash start-notebook.sh &",
+    //"postStartCommand": "chmod u+x start-notebook.sh && bash start-notebook.sh &",
     // Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
-    "remoteUser": "root"
+
+    "features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"installZsh": "true",
+			"upgradePackages": "true"
+		},
+		"ghcr.io/devcontainers/features/git:1": {
+			"version": "latest",
+			"ppa": "false"
+		}
+	},
+	"remoteUser": "jupyter-devbox-mod"
     //"mounts": [
     //	"source=${localWorkspaceFolder},target=/home/ws-mount,type=bind,consistency=cached"
     //]
