@@ -84,4 +84,4 @@ jobs:
           subFolder: .github
           imageName: ghcr.io/${{ github.repository }}
           push: always
-          imageTag: ${{ steps.metadata.outputs.labels }}
+          # imageTag: ${{ steps.metadata.outputs.labels }}
