@@ -116,6 +116,10 @@ USER ${USERNAME}
 # Install ipykernel
 RUN /opt/venv/bin/python -m ipykernel install --user --name="jupyter_devbox" --display-name="jupyter_devbox_python3_venv"
 
+# @birkenbube: Add conf/.jupyter to HOMEDIR
+
+ADD ../../conf/.jupyter ~/
+
 USER root
 
 # Re-enable dialog mode for apt-get
