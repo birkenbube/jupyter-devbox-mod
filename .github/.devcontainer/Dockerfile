@@ -108,8 +108,7 @@ RUN pip install ipykernel docutils jupyter notebook jupyterhub && \
         sqlalchemy \
         pyautogui \
         requests_cache \
-        # @birkenbube: Removed finance stuff
-        # yfinance alpha_vantage nasdaq-data-link finnhub-python financetoolkit financedatabase \
+        yfinance alpha_vantage nasdaq-data-link finnhub-python financetoolkit financedatabase \
         statsmodels
 
 # Install ipykernel
