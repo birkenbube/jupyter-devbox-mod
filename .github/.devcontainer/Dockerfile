@@ -77,8 +77,6 @@ RUN apt-get autoremove -fy && \
     apt-get autoclean -y && \
     rm -rf /var/lib/apt/lists/*
 
-USER ${USERNAME}
-
 # Use a virtual environment for Python (to avoid PEP668 "externally managed environment" error).
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
@@ -112,6 +110,8 @@ RUN pip install ipykernel docutils jupyter notebook jupyterhub && \
         requests_cache \
         yfinance alpha_vantage nasdaq-data-link finnhub-python financetoolkit financedatabase \
         statsmodels
+
+USER ${USERNAME}
 
 # Install ipykernel
 RUN /opt/venv/bin/python -m ipykernel install --user --name="jupyter_devbox" --display-name="jupyter_devbox_python3_venv"
