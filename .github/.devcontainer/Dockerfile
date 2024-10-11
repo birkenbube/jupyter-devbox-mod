@@ -116,9 +116,9 @@ USER ${USERNAME}
 # Install ipykernel
 RUN /opt/venv/bin/python -m ipykernel install --user --name="jupyter_devbox" --display-name="jupyter_devbox_python3_venv"
 
-# @birkenbube: Add conf/.jupyter to HOMEDIR
+# @birkenbube: Copy conf/.jupyter to HOMEDIR
 
-ADD conf/ /home/${USERNAME}/
+COPY --chown=${USER_UID}}:${USER_GID}} conf/ /home/${USERNAME}/
 
 USER root
 
