@@ -65,7 +65,7 @@
 			"ppa": "false"
 		}
 	},
-	"remoteUser": "jupyter-devbox-mod"
+	"remoteUser": "root"
     //"mounts": [
     //	"source=${localWorkspaceFolder},target=/home/ws-mount,type=bind,consistency=cached"
     //]
