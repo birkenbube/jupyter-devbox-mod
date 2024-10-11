@@ -58,7 +58,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: ✏  Setup Docker Metadata
+      - name: Setup Docker Metadata
         id: metadata
         uses: docker/metadata-action@v5 # https://github.com/docker/metadata-action/
         with:
@@ -73,7 +73,7 @@ jobs:
             type=raw,value={{ date 'YYYYMMDD' }}-sha-{{ sha }},enabled=${{ github.event_name == 'push' }}
             type=raw,value=latest
 
-      - name: ✏ Create info.json
+      - name: Create info.json
         run: |
           jq -n --arg version "${{ github.ref_name }}" --arg commit "${{ github.sha }}" --arg date "$(date -u +%F)" '{ version: $version, commit: $commit, date: $date }' > info.json
 
