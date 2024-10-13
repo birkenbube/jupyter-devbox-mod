@@ -13,6 +13,8 @@
                 // Jupyter
                 "ms-toolsai.jupyter",
                 "ms-toolsai.jupyter-renderers",
+                // @birkenbube: display tabular data
+                "ms-toolsai.datawrangler",
                 // VS Code specific
                 "ms-azuretools.vscode-docker",
                 "dbaeumer.vscode-eslint",
