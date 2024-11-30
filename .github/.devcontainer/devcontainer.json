@@ -31,14 +31,16 @@
                 // Markdown specific
                 "yzhang.markdown-all-in-one",
                 // Spell and Grammar Checker
-                "ltex-plus.vscode-ltex-plus"
+                "ltex-plus.vscode-ltex-plus",
+                // Syntax highlighter for CSV
+                "mechatroner.rainbow-csv"
             ],
             "settings": {
                 "terminal.integrated.defaultProfile.linux": "bash",
                 // automatic activation of the selected python environment for the terminal = venv activate
                 "python.terminal.activateEnvironment": true,
                 // help vscode to find the python in our venv
-		"python.defaultInterpreterPath": "/opt/venv/bin/python"
+                "python.defaultInterpreterPath": "/opt/venv/bin/python"
             }
         }
     },
@@ -56,17 +58,16 @@
     // After Starting the Container, start the jupyter notebook
     //"postStartCommand": "chmod u+x start-notebook.sh && bash start-notebook.sh &",
     // Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
-
     "features": {
-		"ghcr.io/devcontainers/features/common-utils:2": {
-			"installZsh": "true"
-		},
-		"ghcr.io/devcontainers/features/git:1": {
-			"version": "latest",
-			"ppa": "false"
-		}
-	},
-	"remoteUser": "jupyter-devbox-mod"
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": "true"
+        },
+        "ghcr.io/devcontainers/features/git:1": {
+            "version": "latest",
+            "ppa": "false"
+        }
+    },
+    "remoteUser": "jupyter-devbox-mod"
     //"mounts": [
     //	"source=${localWorkspaceFolder},target=/home/ws-mount,type=bind,consistency=cached"
     //]
